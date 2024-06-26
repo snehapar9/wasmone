@@ -11,9 +11,7 @@ route = "/ping"
 component = "outbound-redis"
 
 [application.trigger.redis]
-#address = "redis://127.0.0.1:6379"
-address = "redis://172.17.0.4:6379"
-#address = "redis://cache:6379"
+address = "redis://cache:6379"
 
 
 [[trigger.redis]]
@@ -21,11 +19,9 @@ channel = "inbound"          # the channel that the trigger subscribes to
 component = "outbound-redis"  # the name of the component to handle this route
 
 [component.outbound-redis]
-environment = { REDIS_ADDRESS = "redis://172.17.0.4:6379", REDIS_IN_CHANNEL = "inbound", REDIS_OUT_CHANNEL = "outbound"}
-#environment = { REDIS_ADDRESS = "redis://127.0.0.1:6379", REDIS_IN_CHANNEL = "inbound", REDIS_OUT_CHANNEL = "outbound"}
-#environment = { REDIS_ADDRESS = "redis://cache:6379", REDIS_IN_CHANNEL = "inbound", REDIS_OUT_CHANNEL = "outbound"}
+environment = { REDIS_ADDRESS = "redis://cache:6379", REDIS_IN_CHANNEL = "inbound", REDIS_OUT_CHANNEL = "outbound"}
 source = "target/wasm32-wasi/release/rust_outbound_redis.wasm"
-allowed_outbound_hosts = ["redis://172.17.0.4:6379"]
+allowed_outbound_hosts = ["redis://cache:6379"]
 
 [component.outbound-redis.build]
 command = "cargo build --target wasm32-wasi --release"

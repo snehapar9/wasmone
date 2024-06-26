@@ -18,6 +18,9 @@ RUN apt-get update && \
 # Copy the current directory contents into the Docker image
 COPY . .
 
+RUN rm spin.toml
+RUN mv azure.spin.toml spin.toml
+
 WORKDIR /usr/local/bin
 
 RUN curl -fsSL https://developer.fermyon.com/downloads/install.sh | bash
@@ -30,4 +33,5 @@ RUN rustup target add wasm32-wasi
 RUN spin build
 
 # Set the startup command to run your binary
-CMD ["spin", "up"]
+CMD ["spin", "up","--listen","127.0.0.1:80"]
+
