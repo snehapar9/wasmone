@@ -33,5 +33,5 @@ RUN rustup target add wasm32-wasi
 RUN spin build
 
 # Set the startup command to run your binary
-CMD ["spin", "up","--listen","127.0.0.1:8080"]
+CMD ["spin", "up","--listen","0.0.0.0:8080"]
 

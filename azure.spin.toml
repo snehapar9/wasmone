@@ -7,7 +7,7 @@ version = "0.1.0"
 
 
 [[trigger.http]]
-route = "/ping"
+route = "/"
 component = "outbound-redis"
 
 [application.trigger.redis]
