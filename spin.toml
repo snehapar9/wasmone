@@ -1,0 +1,31 @@
+spin_manifest_version = 2
+
+[application]
+authors = ["Fermyon Engineering <engineering@fermyon.com>"]
+name = "rust-outbound-redis-example"
+version = "0.1.0"
+
+[[trigger.http]]
+route = "/ping"
+component = "outbound-redis"
+
+# redis internal address 172.17.0.4
+# redis external address 127.0.0.1
+[application.trigger.redis]
+#address = "redis://127.0.0.1:6379"
+#address = "redis://172.17.0.4:6379"
+address = "redis://cache:6379"
+
+
+
+[[trigger.redis]]
+channel = "inbound"          # the channel that the trigger subscribes to
+component = "outbound-redis"  # the name of the component to handle this route
+
+[component.outbound-redis]
+environment = { REDIS_ADDRESS = "redis://cache:6379", REDIS_IN_CHANNEL = "inbound", REDIS_OUT_CHANNEL = "outbound"}
+source = "target/wasm32-wasi/release/rust_outbound_redis.wasm"
+allowed_outbound_hosts = ["redis://cache:6379"]
+
+[component.outbound-redis.build]
+command = "cargo build --target wasm32-wasi --release"

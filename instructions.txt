@@ -1,0 +1,40 @@
+
+groupId=$(az group show --name acawasm_rg --query id --output tsv)
+
+az ad sp create-for-rbac --scope $groupId --role Contributor --sdk-auth
+
+{
+  "clientId": "2355ec66-93c7-4644-8585-1ef41caf283e",
+  "clientSecret": "Eyy8Q~lmu3Sx0lUzEP8nPj3v4iajYuYbRVEXHdm-",
+  "subscriptionId": "93cba93f-571e-44e9-ac0a-a2987b58848c",
+  "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+  "activeDirectoryEndpointUrl": "https://login.microsoftonline.com",
+  "resourceManagerEndpointUrl": "https://management.azure.com/",
+  "activeDirectoryGraphResourceId": "https://graph.windows.net/",
+  "sqlManagementEndpointUrl": "https://management.core.windows.net:8443/",
+  "galleryEndpointUrl": "https://gallery.azure.com/",
+  "managementEndpointUrl": "https://management.core.windows.net/"
+}
+
+registryId=$(az acr show --name acawasm --resource-group acawasm_rg --query id --output tsv)
+
+az role assignment create --assignee 2355ec66-93c7-4644-8585-1ef41caf283e --scope $registryId --role AcrPush
+
+{
+  "condition": null,
+  "conditionVersion": null,
+  "createdBy": null,
+  "createdOn": "2024-06-20T23:22:33.996107+00:00",
+  "delegatedManagedIdentityResourceId": null,
+  "description": null,
+  "id": "/subscriptions/93cba93f-571e-44e9-ac0a-a2987b58848c/resourceGroups/acawasm_rg/providers/Microsoft.ContainerRegistry/registries/acawasm/providers/Microsoft.Authorization/roleAssignments/43fe554a-8e95-46a6-8862-991aa677ec20",
+  "name": "43fe554a-8e95-46a6-8862-991aa677ec20",
+  "principalId": "3a9ccc63-1533-4ed7-84aa-166128038a27",
+  "principalType": "ServicePrincipal",
+  "resourceGroup": "acawasm_rg",
+  "roleDefinitionId": "/subscriptions/93cba93f-571e-44e9-ac0a-a2987b58848c/providers/Microsoft.Authorization/roleDefinitions/8311e382-0749-4cb8-b61a-304f252e45ec",
+  "scope": "/subscriptions/93cba93f-571e-44e9-ac0a-a2987b58848c/resourceGroups/acawasm_rg/providers/Microsoft.ContainerRegistry/registries/acawasm",
+  "type": "Microsoft.Authorization/roleAssignments",
+  "updatedBy": "00def0e3-5300-486c-9114-865e5f7cec21",
+  "updatedOn": "2024-06-20T23:22:34.359115+00:00"
+}
